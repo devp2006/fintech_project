@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "404818509524",
+    "project_id": "npci-hackathon-warriors",
+    "storage_bucket": "npci-hackathon-warriors.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404818509524:android:28294d6a9daeb7bc864541",
+        "android_client_info": {
+          "package_name": "com.example.npci"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjWGNnu-oo6CD102hXtvCDB3eRDGycTdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
