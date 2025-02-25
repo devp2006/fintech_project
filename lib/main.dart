@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         routes: {
           // '/': (context) =>  Wrapper(),
-          '/': (context) =>  Profile(),
+          '/': (context) =>  ChatScreen(),
           '/chat': (context) =>  ChatScreen(),
 
             '/login': (context) =>  Login(),
