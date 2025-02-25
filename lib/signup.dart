@@ -41,7 +41,7 @@ class _SignUpState extends State<SignUp> {
         
       );
       // Navigate to the home page or other screen after successful signup
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/');
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message ?? 'Sign up failed'),
