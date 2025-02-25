@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:npci/home.dart';
 import 'package:npci/login.dart';
 import 'package:npci/profile.dart';
+
 import 'package:npci/signup.dart';
 import 'package:npci/wrapper.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         routes: {
           // '/': (context) =>  Wrapper(),
-          '/': (context) =>  ChatScreen(),
+          '/': (context) =>   Profiles(),
           '/chat': (context) =>  ChatScreen(),
 
             '/login': (context) =>  Login(),
