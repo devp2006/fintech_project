@@ -121,8 +121,8 @@ class ChatScreenContent extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.grey[900], // Dark AppBar Color
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20), // Rounded bottom corners
-              bottomRight: Radius.circular(20),
+              bottomLeft: Radius.circular(30), // Rounded bottom corners
+              bottomRight: Radius.circular(30),
             ),
           ),
           child: AppBar(
