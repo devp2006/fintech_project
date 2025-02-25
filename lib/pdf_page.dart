@@ -7,23 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
-void main() {
-  runApp(MaterialApp(
-    theme: ThemeData.dark().copyWith(
-      scaffoldBackgroundColor: Colors.black,
-      textTheme: GoogleFonts.latoTextTheme(ThemeData.dark().textTheme),
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.grey[900],
-        titleTextStyle: GoogleFonts.lato(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    ),
-    home: UploadPDFScreen(),
-  ));
-}
+
 
 class UploadPDFScreen extends StatefulWidget {
   @override

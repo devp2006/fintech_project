@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:npci/his.dart';
+import 'package:npci/pdf_page.dart';
 import 'package:npci/profile.dart';
 import 'package:uuid/uuid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert'; // For encoding and decoding JSON
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -16,6 +20,33 @@ class _ChatScreenState extends State<ChatScreen> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadChatHistory();
+  }
+
+  void _saveChatHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> chatHistory = _messages.map((msg) => jsonEncode(msg.toJson())).toList();
+    await prefs.setStringList('chat_history', chatHistory);
+  }
+
+  void _loadChatHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? storedMessages = prefs.getStringList('chat_history');
+
+    if (storedMessages != null) {
+      setState(() {
+        _messages = storedMessages
+            .map((msg) => types.TextMessage.fromJson(jsonDecode(msg)))
+            .toList();
+      });
+
+      _saveChatHistory(); // Ensure data is properly stored
+    }
+  }
+
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
       author: _user,
@@ -28,6 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
       _messages.insert(0, textMessage);
     });
 
+    _saveChatHistory(); // Save history after sending message
     _getBotResponse(message.text);
   }
 
@@ -44,6 +76,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _messages.insert(0, botMessage);
     });
+
+    _saveChatHistory(); // Save history after bot response
   }
 
   Future<String> fetchResponseFromBackend(String query) async {
@@ -64,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark background
+      backgroundColor: Colors.black,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -78,24 +112,22 @@ class _ChatScreenState extends State<ChatScreen> {
             onSendPressed: _handleSendPressed,
             user: _user,
           ),
-          // SettingsScreen(),
-          // NotificationsScreen(),
-         ProfileHome()
+          ChatHistoryScreen(),
+          UploadPDFScreen(),
+          ProfileHome(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.grey[900], // Dark navbar
-        selectedItemColor: Colors.white, // Highlighted icon color
-        unselectedItemColor: Colors.grey, // Non-selected icon color
+        backgroundColor: Colors.grey[900],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.book), label: "History"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.document_scanner), label: "PDF"),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: "History"),
+          BottomNavigationBarItem(icon: Icon(Icons.document_scanner), label: "PDF"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
@@ -108,48 +140,48 @@ class ChatScreenContent extends StatelessWidget {
   final void Function(types.PartialText) onSendPressed;
   final types.User user;
 
-  const ChatScreenContent(
-      {required this.messages,
-      required this.onSendPressed,
-      required this.user});
+  const ChatScreenContent({
+    required this.messages,
+    required this.onSendPressed,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark background
+      backgroundColor: Colors.black,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80), // Increased Navbar Height
+        preferredSize: Size.fromHeight(80),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey[900], // Dark AppBar Color
+            color: Colors.grey[900],
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30), // Rounded bottom corners
+              bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
             ),
           ),
           child: AppBar(
-            backgroundColor:
-                Colors.transparent, // Transparent for rounded effect
-            elevation: 0, // No shadow
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center logo & text
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   height: 90,
                   width: 90,
                   child: Image.asset(
-                    'assets/logo.png', // Replace with your logo path
-                    height: 40, // Adjust size as needed
+                    'assets/logo.png',
+                    height: 40,
                   ),
                 ),
-                SizedBox(width: 10), // Space between logo and text
+                SizedBox(width: 10),
                 Text(
                   "Chatbot",
                   style: TextStyle(
-                    fontSize: 28, // Larger font
-                    fontWeight: FontWeight.bold, // Bold text
-                    letterSpacing: 1.2, // Slight spacing for better look
-                    color: Colors.white, // Text color
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -165,24 +197,21 @@ class ChatScreenContent extends StatelessWidget {
           onSendPressed: onSendPressed,
           user: user,
           theme: DefaultChatTheme(
-            backgroundColor: Colors.black, // Chat background
-            primaryColor: Color.fromARGB(255, 89, 217, 255), // User message color
-            secondaryColor: Colors.grey[800]!, // Bot message color
-            inputBackgroundColor: Colors.grey[900]!, // Input field background
-            inputTextColor: Colors.white, // Input text color
+            backgroundColor: Colors.black,
+            primaryColor: Color.fromARGB(255, 89, 217, 255),
+            secondaryColor: Colors.grey[800]!,
+            inputBackgroundColor: Colors.grey[900]!,
+            inputTextColor: Colors.white,
             receivedMessageBodyTextStyle: TextStyle(color: Colors.white),
             sentMessageBodyTextStyle: TextStyle(color: Colors.white),
             inputContainerDecoration: BoxDecoration(
               color: Colors.grey[900],
               borderRadius: BorderRadius.circular(30),
             ),
-            messageBorderRadius: 20, // **Round corners for all messages**
+            messageBorderRadius: 20,
           ),
-
         ),
       ),
     );
   }
 }
-
-// Dark themed Settings Screen

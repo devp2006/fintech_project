@@ -2,8 +2,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:npci/contact.dart';
+import 'package:npci/his.dart';
 import 'package:npci/home.dart';
 import 'package:npci/login.dart';
+import 'package:npci/pdf_page.dart';
 import 'package:npci/profile.dart';
 import 'package:npci/showdetials.dart';
 
@@ -42,6 +44,9 @@ class MyApp extends StatelessWidget {
             '/updateProfile': (context) =>  UpdateProfile(),
             '/profileDetails': (context) =>  ProfileDetails(),
             '/contactUs': (context) =>  ContactUs(),
+            '/pdf': (context) =>  UploadPDFScreen(),
+
+            '/history': (context) =>  ChatHistoryScreen()
         },
     );
   }
