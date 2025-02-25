@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:npci/home.dart';
 import 'package:npci/login.dart';
+import 'package:npci/profile.dart';
 import 'package:npci/signup.dart';
 import 'package:npci/wrapper.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         ),
         themeMode: ThemeMode.dark,
         routes: {
-          '/': (context) =>  Wrapper(),
+          // '/': (context) =>  Wrapper(),
+          '/': (context) =>  Profile(),
           '/chat': (context) =>  ChatScreen(),
 
             '/login': (context) =>  Login(),
