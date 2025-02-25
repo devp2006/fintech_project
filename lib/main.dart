@@ -1,11 +1,14 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:npci/contact.dart';
 import 'package:npci/home.dart';
 import 'package:npci/login.dart';
 import 'package:npci/profile.dart';
+import 'package:npci/showdetials.dart';
 
 import 'package:npci/signup.dart';
+import 'package:npci/update.dart';
 import 'package:npci/wrapper.dart';
 
 void main() async{
@@ -30,11 +33,15 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         routes: {
           '/': (context) =>  Wrapper(),
-          // '/': (context) =>   Profiles(),
+         
           '/chat': (context) =>  ChatScreen(),
 
             '/login': (context) =>  Login(),
             '/signup': (context) =>  SignUp(),
+            '/profile': (context) =>  ProfileHome(),
+            '/updateProfile': (context) =>  UpdateProfile(),
+            '/profileDetails': (context) =>  ProfileDetails(),
+            '/contactUs': (context) =>  ContactUs(),
         },
     );
   }

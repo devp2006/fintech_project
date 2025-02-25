@@ -15,37 +15,42 @@ class _SignUpState extends State<SignUp> {
   TextEditingController confirmPasswordController = TextEditingController();
   bool isPasswordVisible = false;
   bool isLoading = false;
+
   Future<void> signUp() async {
     if (userController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please fill all fields'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill all fields')),
+      );
       return;
     }
     if (passwordController.text != confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Passwords do not match'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Passwords do not match')),
+      );
       return;
     }
     setState(() {
       isLoading = true;
     });
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
-        
       );
-      // Navigate to the home page or other screen after successful signup
+
+      // Update the user's display name
+      await userCredential.user?.updateDisplayName(userController.text);
+
+      // Navigate to the home page after successful signup
       Navigator.pushReplacementNamed(context, '/');
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message ?? 'Sign up failed'),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Sign up failed')),
+      );
     } finally {
       setState(() {
         isLoading = false;
@@ -68,13 +73,11 @@ class _SignUpState extends State<SignUp> {
               TextField(
                 controller: userController,
                 decoration: InputDecoration(
-                  labelText: 'UserName',
+                  labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
-              // Email Field
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
@@ -84,7 +87,6 @@ class _SignUpState extends State<SignUp> {
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
-              // Password Field
               TextField(
                 controller: passwordController,
                 decoration: InputDecoration(
@@ -106,8 +108,6 @@ class _SignUpState extends State<SignUp> {
                 obscureText: !isPasswordVisible,
               ),
               SizedBox(height: 16),
-
-              // Confirm Password Field
               TextField(
                 controller: confirmPasswordController,
                 decoration: InputDecoration(
@@ -129,8 +129,6 @@ class _SignUpState extends State<SignUp> {
                 obscureText: !isPasswordVisible,
               ),
               SizedBox(height: 16),
-
-              // Sign Up Button
               ElevatedButton(
                 onPressed: isLoading ? null : signUp,
                 child:
@@ -139,10 +137,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 16),
               TextButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    '/login',
-                  );
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 child: Text('Already Signed up? Log In'),
               ),

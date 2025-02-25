@@ -80,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           // SettingsScreen(),
           // NotificationsScreen(),
-          Profiles(),
+         ProfileHome()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
