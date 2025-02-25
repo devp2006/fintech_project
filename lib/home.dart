@@ -73,9 +73,10 @@ class _ChatScreenState extends State<ChatScreen> {
         },
         children: [
           ChatScreenContent(
-              messages: _messages,
-              onSendPressed: _handleSendPressed,
-              user: _user),
+            messages: _messages,
+            onSendPressed: _handleSendPressed,
+            user: _user,
+          ),
           SettingsScreen(),
           NotificationsScreen(),
           ProfileScreen(),
@@ -116,7 +117,7 @@ class ChatScreenContent extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black, // Dark background
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80), // Increase Navbar Height
+        preferredSize: Size.fromHeight(80), // Increased Navbar Height
         child: Container(
           decoration: BoxDecoration(
             color: Colors.grey[900], // Dark AppBar Color
@@ -132,47 +133,51 @@ class ChatScreenContent extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center, // Center logo & text
               children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 80),
+                Container(
+                  height: 90,
+                  width: 90,
                   child: Image.asset(
                     'assets/logo.png', // Replace with your logo path
                     height: 40, // Adjust size as needed
                   ),
                 ),
-              // Space between logo and text
-                Padding(
-                  padding: const EdgeInsets.only(right: 80),
-                  child: Text(
-                    "Chatbot",
-                    style: TextStyle(
-                      fontSize: 24, // Larger font
-                      fontWeight: FontWeight.bold, // Bold text
-                      letterSpacing: 1.2, // Slight spacing for better look
-                      color: Colors.white, // Text color
-                    ),
+                SizedBox(width: 10), // Space between logo and text
+                Text(
+                  "Chatbot",
+                  style: TextStyle(
+                    fontSize: 28, // Larger font
+                    fontWeight: FontWeight.bold, // Bold text
+                    letterSpacing: 1.2, // Slight spacing for better look
+                    color: Colors.white, // Text color
                   ),
                 ),
               ],
             ),
+            centerTitle: true,
           ),
         ),
       ),
-      body: Chat(
-        messages: messages,
-        onSendPressed: onSendPressed,
-        user: user,
-        theme: DefaultChatTheme(
-          backgroundColor: Colors.black, // Chat background
-          primaryColor: Colors.blueGrey[800]!, // User message color
-          secondaryColor: Colors.grey[800]!, // Bot message color
-          inputBackgroundColor: Colors.grey[900]!, // Input field background
-          inputTextColor: Colors.white, // Input text color
-          receivedMessageBodyTextStyle: TextStyle(color: Colors.white),
-          sentMessageBodyTextStyle: TextStyle(color: Colors.white),
-          inputContainerDecoration: BoxDecoration(
-            color: Colors.grey[900],
-            borderRadius: BorderRadius.circular(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Chat(
+          messages: messages,
+          onSendPressed: onSendPressed,
+          user: user,
+          theme: DefaultChatTheme(
+            backgroundColor: Colors.black, // Chat background
+            primaryColor: Color.fromARGB(255, 89, 217, 255), // User message color
+            secondaryColor: Colors.grey[800]!, // Bot message color
+            inputBackgroundColor: Colors.grey[900]!, // Input field background
+            inputTextColor: Colors.white, // Input text color
+            receivedMessageBodyTextStyle: TextStyle(color: Colors.white),
+            sentMessageBodyTextStyle: TextStyle(color: Colors.white),
+            inputContainerDecoration: BoxDecoration(
+              color: Colors.grey[900],
+              borderRadius: BorderRadius.circular(30),
+            ),
+            messageBorderRadius: 20, // **Round corners for all messages**
           ),
+
         ),
       ),
     );
