@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:npci/profile.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -77,9 +78,9 @@ class _ChatScreenState extends State<ChatScreen> {
             onSendPressed: _handleSendPressed,
             user: _user,
           ),
-          SettingsScreen(),
-          NotificationsScreen(),
-          ProfileScreen(),
+          // SettingsScreen(),
+          // NotificationsScreen(),
+          Profiles(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -92,9 +93,9 @@ class _ChatScreenState extends State<ChatScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: "Settings"),
+              icon: Icon(Icons.book), label: "History"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: "Notifications"),
+              icon: Icon(Icons.document_scanner), label: "PDF"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
@@ -185,61 +186,3 @@ class ChatScreenContent extends StatelessWidget {
 }
 
 // Dark themed Settings Screen
-class SettingsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text("Settings"),
-        backgroundColor: Colors.grey[900],
-      ),
-      body: Center(
-        child: Text(
-          "Settings Page",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
-
-// Dark themed Notifications Screen
-class NotificationsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text("Notifications"),
-        backgroundColor: Colors.grey[900],
-      ),
-      body: Center(
-        child: Text(
-          "Notifications Page",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
-
-// Dark themed Profile Screen
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text("Profile"),
-        backgroundColor: Colors.grey[900],
-      ),
-      body: Center(
-        child: Text(
-          "Profile Page",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),
-    );
-  }
-}
